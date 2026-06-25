@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Black Flag AVP | Greater Houston Commercial AV Integration & Live Production</title>
+    <style>
+        /* --- DESIGN SYSTEM & CSS VARIABLES --- */
+        :root {
+            --bg-primary: #060913;    /* Deep midnight black-blue */
+            --bg-secondary: #0d1321;  /* Rich navy-black for cards */
+            --accent-color: #00d2ff;  /* Crystal clear electric cyan/blue */
+            --text-main: #ffffff;
+            --text-muted: #7e8c9f;
+            --card-bg: #141d30;
+            --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: var(--font-stack);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- NAVIGATION --- */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(6, 9, 19, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            border-bottom: 1px solid rgba(0, 210, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.2rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .logo span {
+            color: var(--accent-color);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--text-main);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            padding: 0 2rem;
+            background: linear-gradient(180deg, rgba(6,9,19,0.4) 0%, rgba(6,9,19,1) 90%), 
+                        radial-gradient(circle at center, rgba(0,210,255,0.12) 0%, transparent 60%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(0, 210, 255, 0.1);
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-group {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            font-weight: 600;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            cursor: pointer;
+            border: none;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: #060913;
+        }
+
+        .btn-primary:hover {
+            background-color: #00bce5;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 210, 255, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent-color);
+            background: rgba(0, 210, 255, 0.05);
+            transform: translateY(-2px);
+        }
+
+        /* --- COMMON SECTION STYLING --- */
+        .section {
+            padding: 8rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- CAPABILITIES GRID --- */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .card {
+            background-color: var(--bg-secondary);
+            border: 1px solid rgba(0, 210, 255, 0.05);
+            border-radius: 8px;
+            padding: 2.5rem;
+            transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 210, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background-color: var(--accent-color);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            color: var(--text-main);
+            font-size: 0.9rem;
+            margin-bottom: 0.6rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .card li::before {
+            content: "▪";
+            color: var(--accent-color);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+        }
+
+        /* --- PORTFOLIO GRID --- */
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .portfolio-item {
+            background: var(--bg-secondary);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .portfolio-item:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 210, 255, 0.2);
+        }
+
+        .portfolio-visual {
+            height: 240px;
+            overflow: hidden;
+            background-color: #070b14;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .portfolio-visual img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            transition: transform 0.5s ease, opacity 0.3s ease;
+        }
+
+        .portfolio-item:hover .portfolio-visual img {
+            transform: scale(1.04);
+            opacity: 1;
+        }
+
+        .portfolio-info {
+            padding: 1.5rem;
+        }
+
+        .portfolio-tag {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            letter-spacing: 1.5px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .portfolio-info h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-info p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- GEOGRAPHIC / COVERAGE SECTION --- */
+        .coverage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .region-card {
+            background: rgba(13, 19, 33, 0.5);
+            border: 1px solid rgba(0, 210, 255, 0.03);
+            border-radius: 6px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .region-card h4 {
+            color: var(--accent-color);
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .region-card p {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* --- CONTACT & INTAKE SPLIT --- */
+        .contact-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            border: 1px solid rgba(0, 210, 255, 0.05);
+            padding: 3.5rem;
+        }
+
+        .contact-info-panel h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info-panel > p {
+            color: var(--text-muted);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+        }
+
+        .info-channels {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .channel-block {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .channel-icon {
+            background: rgba(0, 210, 255, 0.1);
+            color: var(--accent-color);
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .channel-details label {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 0.2rem;
+        }
+
+        .channel-details a, .channel-details p {
+            color: var(--text-main);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        .channel-details a:hover {
+            color: var(--accent-color);
+        }
+
+        /* --- LEAD FORM --- */
+        .intake-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .form-row-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            background-color: var(--bg-primary);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 0.8rem 1rem;
+            border-radius: 4px;
+            font-family: var(--font-stack);
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* --- FOOTER & SOCIAL CONNECTIVITY --- */
+        footer {
+            border-top: 1px solid rgba(0, 210, 255, 0.05);
+            padding: 4rem 2rem;
+            text-align: center;
+            background-color: var(--bg-primary);
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .social-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 0.5rem 1.2rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            color: var(--accent-color);
+            border-color: var(--accent-color);
+            background: rgba(0, 210, 255, 0.05);
+            transform: translateY(-1px);
+        }
+
+        /* --- RESPONSIVE OPTIMIZATION --- */
+        @media (max-width: 992px) {
+            .contact-layout { grid-template-columns: 1fr; gap: 3rem; padding: 2rem; }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .nav-container { flex-direction: column; gap: 1rem; }
+            nav a { margin: 0 1rem; }
+            .section { padding: 5rem 1rem; }
+            .form-row-split { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <header>
+        <div class="nav-container">
+            <div class="logo">BLACK FLAG<span>.AVP</span></div>
+            <nav>
+                <a href="#home" class="active">Home</a>
+                <a href="#capabilities">Capabilities</a>
+                <a href="#portfolio">Portfolio</a>
+                <a href="#coverage">Coverage</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="badge">Permanent Integration & Live Operation</div>
+            <h1>Engineered for the Installation.<br>Built for the Performance.</h1>
+            <p class="hero-subtitle">We design, network, and install turnkey commercial AV frameworks—and possess the rare operational background to run them flawlessly on your highest-stakes event nights.</p>
+            <div class="cta-group">
+                <a href="#capabilities" class="btn btn-primary">Our Capabilities</a>
+                <a href="#contact" class="btn btn-secondary">Request Consultation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CORE CAPABILITIES GRID -->
+    <section id="capabilities" class="section">
+        <div class="section-header">
+            <h2>The Full-Stack AV Approach</h2>
+            <p>From structural commercial installations to real-time, triple-threat venue control, we keep systems connected, automated, and performing under pressure.</p>
+        </div>
+
+        <div class="services-grid">
+            <!-- Pillar 1: Turnkey Systems Integration -->
+            <div class="card">
+                <div class="card-icon">⚙️</div>
+                <h3>Turnkey Systems Integration</h3>
+                <p>Complete infrastructural design and installation for commercial venues, bars, lounges, and high-end residential spaces.</p>
+                <ul>
+                    <li>Full venue sound reinforcement & layout</li>
+                    <li>Intelligent lighting & video wall arrays</li>
+                    <li>Commercial/residential automation matrices</li>
+                    <li>Structural architectural mounting & TVs</li>
+                </ul>
+            </div>
+
+            <!-- Pillar 2: Live Show Operation -->
+            <div class="card">
+                <div class="card-icon">🎛️</div>
+                <h3>Live Technical Control</h3>
+                <p>Active multi-system execution for high-intensity night club and artist environments. Specialists in fast-paced Latin club production.</p>
+                <ul>
+                    <li>Real-time Lighting Design (LD)</li>
+                    <li>Immersive video loops & VJ mixing</li>
+                    <li>Live artist & high-output DJ audio engineering</li>
+                    <li>On-the-fly troubleshooting under stress</li>
+                </ul>
+            </div>
+
+            <!-- Pillar 3: Infrastructure & Repair -->
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>Network Optimization & Repair</h3>
+                <p>The technical backbone. We configure networks specifically optimized for heavy AV data packets and fix systems at the component level.</p>
+                <ul>
+                    <li>Art-Net, sACN & Dante network routing</li>
+                    <li>VLAN isolation for zero latency</li>
+                    <li>Component-level equipment diagnosis & soldering</li>
+                    <li>Emergency system recovery and retrofits</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- PORTFOLIO SECTION WITH INJECTED HIGH-END MEDIA -->
+    <section id="portfolio" class="section" style="border-top: 1px solid rgba(255,255,255,0.02);">
+        <div class="section-header">
+            <h2>Recent Deployments & Operations</h2>
+            <p>A look inside live front-of-house control booths, clean server rooms, and completed multi-zone commercial environments.</p>
+        </div>
+
+        <div class="portfolio-grid">
+            <!-- Item 1: Live Control -->
+            <div class="portfolio-item">
+                <div class="portfolio-visual">
+                    <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?auto=format&fit=crop&w=600&q=80" alt="Live Lighting Control Console">
+                </div>
+                <div class="portfolio-info">
+                    <span class="portfolio-tag">Live Production</span>
+                    <h3>High-Energy Club Environment</h3>
+                    <p>Simultaneous live technical management of audio, multi-universe lighting design (LD), and synchronized video wall layouts tailored to live DJ environments.</p>
+                </div>
+            </div>
+
+            <!-- Item 2: Integration -->
+            <div class="portfolio-item">
+                <div class="portfolio-visual">
+                    <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=600&q=80" alt="Clean Commercial Server Rack Network Cabling">
+                </div>
+                <div class="portfolio-info">
+                    <span class="portfolio-tag">Turnkey Installation</span>
+                    <h3>Commercial Lounge Audio-Visual Array</h3>
+                    <p>Full architectural hardware deployment, structured cabling, audio matrix balancing, and centralized media display mounting for seamless staff operations.</p>
+                </div>
+            </div>
+
+            <!-- Item 3: Infrastructure -->
+            <div class="portfolio-item">
+                <div class="portfolio-visual">
+                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=600&q=80" alt="Immersive LED Video Wall Display">
+                </div>
+                <div class="portfolio-info">
+                    <span class="portfolio-tag">Network Architecture & Repair</span>
+                    <h3>Managed Network Setup & Equipment Restoration</h3>
+                    <p>Configured dedicated VLAN architectures to run Art-Net and control data over isolated nodes, coupled with component-level diagnostic and system retrofits.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REGIONAL SERVICE COVERAGE -->
+    <section id="coverage" class="section" style="border-top: 1px solid rgba(255,255,255,0.02);">
+        <div class="section-header">
+            <h2>Operational Service Area</h2>
+            <p>Providing permanent on-site systems installation, residential automation, and emergency engineering services across the Greater Houston footprint.</p>
+        </div>
+
+        <div class="coverage-grid">
+            <div class="region-card">
+                <h4>North Limit</h4>
+                <p>The Woodlands & Conroe Corridor</p>
+            </div>
+            <div class="region-card">
+                <h4>West Limit</h4>
+                <p>Brookshire & Katy Hubs</p>
+            </div>
+            <div class="region-card">
+                <h4>South Limit</h4>
+                <p>Galveston Island & Coastal Venues</p>
+            </div>
+            <div class="region-card">
+                <h4>East Limit</h4>
+                <p>Beaumont & Golden Triangle Corridor</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT & LEAD GENERATION SECTION -->
+    <section id="contact" class="section">
+        <div class="contact-layout">
+            
+            <!-- Technical Routing Info -->
+            <div class="contact-info-panel">
+                <h3>Let's Protect Your Venue's Performance</h3>
+                <p>Minimize technical downtime. Maximize the audio-visual impact on your crowd. Reach out directly or dispatch a structured field service ticket through our portal.</p>
+                
+                <div class="info-channels">
+                    <div class="channel-block">
+                        <div class="channel-icon">✉</div>
+                        <div class="channel-details">
+                            <label>Direct Intake Email</label>
+                            <a href="mailto:blackflaghtx@gmail.com">blackflaghtx@gmail.com</a>
+                        </div>
+                    </div>
+                    <div class="channel-block">
+                        <div class="channel-icon">☎</div>
+                        <div class="channel-details">
+                            <label>Emergency Dispatch / SMS</label>
+                            <a href="tel:3462980045">(346) 298-0045</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pre-Routing Client Intake Form -->
+            <form class="intake-form" id="leadForm">
+                <div class="form-row-split">
+                    <div class="form-group">
+                        <label for="clientName">Your Name</label>
+                        <input type="text" id="clientName" required placeholder="e.g., Alex Miller">
+                    </div>
+                    <div class="form-group">
+                        <label for="venueName">Company / Venue Name</label>
+                        <input type="text" id="venueName" required placeholder="e.g., Neon Lounge">
+                    </div>
+                </div>
+                
+                <div class="form-row-split">
+                    <div class="form-group">
+                        <label for="clientPhone">Contact Phone</label>
+                        <input type="tel" id="clientPhone" required placeholder="e.g., 713-555-0199">
+                    </div>
+                    <div class="form-group">
+                        <label for="projectType">Service Requirement</label>
+                        <select id="projectType" required>
+                            <option value="" disabled selected>Select service class...</option>
+                            <option value="Commercial Turnkey Integration">Turnkey Integration / New Install</option>
+                            <option value="High-Intensity Live Operation">Live Show Operation (LD/VJ/Audio)</option>
+                            <option value="Emergency Equipment Repair">Emergency Repair & System Recovery</option>
+                            <option value="Residential Home Automation">High-End Residential Automation</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="projectDetails">Scope of Work / Urgent Technical Symptoms</label>
+                    <textarea id="projectDetails" required placeholder="Describe the installation scope or technical failure symptoms..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 0.5rem; font-weight: 700; letter-spacing: 0.5px;">SUBMIT SYSTEM INTAKE TICKET</button>
+            </form>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <a href="https://www.facebook.com/blackflagHou" target="_blank" class="social-link">
+            <span>Find Us On Facebook</span> →
+        </a>
+        <p>&copy; 2026 Black Flag AVP. All Rights Reserved. Systems Engineered for Reliability.</p>
+    </footer>
+
+    <!-- INTERACTION LOGIC -->
+    <script>
+        // Active Scrolling Navigation Tracking
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (pageYOffset >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(a => {
+                a.classList.remove('active');
+                if (a.getAttribute('href').slice(1) === current) {
+                    a.classList.add('active');
+                }
+            });
+        });
+
+        // Form Submission Mailto Engine
+        document.getElementById('leadForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('clientName').value;
+            const venue = document.getElementById('venueName').value;
+            const phone = document.getElementById('clientPhone').value;
+            const type = document.getElementById('projectType').value;
+            const details = document.getElementById('projectDetails').value;
+            
+            const emailTo = "blackflaghtx@gmail.com";
+            const subject = encodeURIComponent(`[AVP SERVICE TICKET] - ${type} at ${venue}`);
+            
+            const body = encodeURIComponent(
+                `BLACK FLAG AVP SYSTEM INTAKE RECORD\n` +
+                `========================================\n\n` +
+                `Client Name: ${name}\n` +
+                `Venue/Company: ${venue}\n` +
+                `Contact Phone: ${phone}\n` +
+                `Service Profile: ${type}\n\n` +
+                `PROJECT DETAILS / SYMPTOMS:\n` +
+                `----------------------------------------\n` +
+                `${details}\n\n` +
+                `========================================\n` +
+                `Sent via Black Flag AVP Web Portal Portal Engine.`
+            );
+            
+            window.location.href = `mailto:${emailTo}?subject=${subject}&body=${body}`;
+        });
+    </script>
+</body>
+</html>
